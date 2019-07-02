@@ -1,6 +1,6 @@
-//
-// Created by 高翔 on 2017/12/15.
-//
+// PA4 of 深蓝 SLAM14
+// Finished by suzhilong
+//2019/7/2
 #include <iostream>
 #include <opencv2/opencv.hpp>
 #include <Eigen/Core>
@@ -37,22 +37,24 @@ int main(int argc, char **argv) {
             double xi = x_data[i], yi = y_data[i];  // 第i个数据点
             // start your code here
             double error = 0;   // 第i个数据点的计算误差
-            error = 0; // 填写计算error的表达式
-            Vector3d J; // 雅可比矩阵
-            J[0] = 0;  // de/da
-            J[1] = 0;  // de/db
-            J[2] = 0;  // de/dc
+            error = yi - exp(ae * xi * xi + be * xi + ce); // 填写计算error的表达式
+			Vector3d J; // 雅可比矩阵
+            J[0] = -exp(ae * xi * xi + be * xi + ce) * (xi*xi);  // de/da
+            J[1] = -exp(ae * xi * xi + be * xi + ce) * xi;  // de/db
+            J[2] = -exp(ae * xi * xi + be * xi + ce);  // de/dc
 
             H += J * J.transpose(); // GN近似的H
             b += -error * J;
             // end your code here
 
             cost += error * error;
+			cout << "cost" << i << ": " <<cost << endl;
         }
 
         // 求解线性方程 Hx=b，建议用ldlt
  	// start your code here
         Vector3d dx;
+		dx = H.ldlt().solve(b);
 	// end your code here
 
         if (isnan(dx[0])) {

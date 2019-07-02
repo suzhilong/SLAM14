@@ -1,7 +1,6 @@
-//
-// Created by 高翔 on 2017/12/15.
-//
-
+// PA4 of 深蓝 SLAM14
+// Finished by suzhilong
+//2019/7/2
 #include <opencv2/opencv.hpp>
 #include <string>
 #include <Eigen/Core>
